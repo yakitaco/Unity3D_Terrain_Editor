@@ -10,6 +10,14 @@ namespace TerrainEditor.Infrastructure.Rendering
         private TerrainData terrainData;
 
         public Terrain CurrentTerrain => terrain;
+        public TerrainData CurrentTerrainData => terrainData;
+
+        public void ApplyHeights(float[,] heights)
+        {
+            if (terrainData == null || heights == null) return;
+            terrainData.SetHeightsDelayLOD(0, 0, heights);
+            terrainData.SyncHeightmap();
+        }
 
         public bool TryBuild(TerrainProject project, Transform parent, out string error)
         {

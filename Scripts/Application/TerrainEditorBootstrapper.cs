@@ -2,6 +2,7 @@ using TerrainEditor.Domain;
 using TerrainEditor.Application;
 using TerrainEditor.Infrastructure.Rendering;
 using TerrainEditor.Presentation.Camera;
+using TerrainEditor.Presentation.Editing;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,7 @@ namespace TerrainEditor.Application
         private EditorCameraController cameraController;
 
         public TerrainProject CurrentProject => currentProject;
+        public TerrainRenderAdapter RenderAdapter => renderAdapter;
 
         private void Awake()
         {
@@ -87,6 +89,9 @@ namespace TerrainEditor.Application
                 eventObject.AddComponent<UnityEngine.EventSystems.EventSystem>();
                 // InputSystemUIInputModule should be added when a UI Canvas is introduced.
             }
+
+            if (GetComponent<HeightBrushEditor>() == null)
+                gameObject.AddComponent<HeightBrushEditor>();
         }
 
         private void OnDestroy()
