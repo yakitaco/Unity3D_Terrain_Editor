@@ -92,6 +92,9 @@ namespace TerrainEditor.Application
 
             if (GetComponent<HeightBrushEditor>() == null)
                 gameObject.AddComponent<HeightBrushEditor>();
+
+            if (GetComponent<SurfacePaintEditor>() == null)
+                gameObject.AddComponent<SurfacePaintEditor>();
         }
 
         private void OnDestroy()

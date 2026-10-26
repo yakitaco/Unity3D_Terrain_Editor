@@ -20,6 +20,7 @@ namespace TerrainEditor.Presentation.Editing
         private TerrainEditorBootstrapper bootstrapper;
         private BrushMode mode = BrushMode.Raise;
         private bool editingEnabled = true;
+        public bool InputSuspended { get; set; }
         private bool isStrokeActive;
         private float[,] strokeBefore;
         private readonly Stack<float[,]> undoStack = new Stack<float[,]>();
@@ -36,7 +37,7 @@ namespace TerrainEditor.Presentation.Editing
 
         private void Update()
         {
-            if (!editingEnabled || bootstrapper == null || bootstrapper.CurrentProject == null) return;
+            if (!editingEnabled || InputSuspended || bootstrapper == null || bootstrapper.CurrentProject == null) return;
             var mouse = Mouse.current;
             if (mouse == null) return;
 
