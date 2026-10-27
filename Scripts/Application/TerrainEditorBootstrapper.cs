@@ -95,6 +95,9 @@ namespace TerrainEditor.Application
 
             if (GetComponent<SurfacePaintEditor>() == null)
                 gameObject.AddComponent<SurfacePaintEditor>();
+
+            if (GetComponent<WaterEditor>() == null)
+                gameObject.AddComponent<WaterEditor>();
         }
 
         private void OnDestroy()

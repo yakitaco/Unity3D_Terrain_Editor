@@ -23,6 +23,7 @@ namespace TerrainEditor.Presentation.Editing
         private TerrainEditorBootstrapper bootstrapper;
         private HeightBrushEditor heightEditor;
         private bool paintMode;
+        public bool InputSuspended { get; set; }
         private SurfaceKind selectedSurface = SurfaceKind.Grassland;
         private bool strokeActive;
         private float[,,] strokeBefore;
@@ -53,8 +54,8 @@ namespace TerrainEditor.Presentation.Editing
             if (configuredData != terrain.terrainData)
                 ConfigureLayers(terrain.terrainData);
 
-            if (heightEditor != null) heightEditor.InputSuspended = paintMode;
-            if (!paintMode) return;
+            if (heightEditor != null) heightEditor.InputSuspended = paintMode || InputSuspended;
+            if (!paintMode || InputSuspended) return;
 
             var mouse = Mouse.current;
             if (mouse == null) return;
@@ -98,7 +99,7 @@ namespace TerrainEditor.Presentation.Editing
         private static bool IsPointerOverPanel(Vector2 screenPosition)
         {
             float guiY = Screen.height - screenPosition.y;
-            return new Rect(318f, 12f, 292f, 360f).Contains(new Vector2(screenPosition.x, guiY));
+            return new Rect(318f, 12f, 292f, 360f).Contains(new Vector2(screenPosition.x, guiY)) || new Rect(Screen.width - 316f, 0f, 316f, 470f).Contains(new Vector2(screenPosition.x, guiY));
         }
 
         private void ConfigureLayers(TerrainData data)
@@ -259,7 +260,7 @@ namespace TerrainEditor.Presentation.Editing
             if (newMode != paintMode)
             {
                 paintMode = newMode;
-                if (heightEditor != null) heightEditor.InputSuspended = paintMode;
+                if (heightEditor != null) heightEditor.InputSuspended = paintMode || InputSuspended;
                 status = paintMode ? "地表ペイント中：左ドラッグで塗る" : "高さ編集モードに戻りました";
             }
             GUILayout.Space(6);
